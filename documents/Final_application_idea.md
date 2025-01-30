@@ -3,7 +3,7 @@ Overview
 Plant Parent is a dedicated application designed for plant enthusiasts,
 whether they are experienced gardeners needing assistance with plant care schedules or new plant owners 
 learning how to maintain their plants. This application provides essential features to help users track, manage, and monitor their plants efficiently.
-Features and Functionality:
+Features and Functionality:/n
 The Plant Parent app will include the following features:
   •	Track Plant Care: Users can log watering, fertilization, and other plant maintenance tasks.
   •	Organize Plant Schedules: Set reminders and schedules for plant care activities.
