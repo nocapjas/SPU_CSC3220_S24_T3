@@ -1,5 +1,7 @@
 Plant Parent - Application Proposal
+
 Overview
+
 Plant Parent is a dedicated application designed for plant enthusiasts,
 whether they are experienced gardeners needing assistance with plant care schedules or new plant owners 
 learning how to maintain their plants. This application provides essential features to help users track, manage, and monitor their plants efficiently.
