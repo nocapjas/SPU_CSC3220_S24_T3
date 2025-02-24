@@ -1,0 +1,69 @@
+Plant Parent Database Schema
+1. Database Schema (SQL DDL)
+PRAGMA foreign_keys = ON; -- Enforce foreign keys in SQLite
+
+-- Stores information about different plant species
+CREATE TABLE PlantData (
+    plant_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    species TEXT NOT NULL UNIQUE,
+    care_info TEXT
+);
+
+-- Stores information about individual plants owned by users
+CREATE TABLE Plants (
+    plant_id INTEGER PRIMARY KEY AUTOINCREMENT,    
+    name TEXT NOT NULL,
+    species_id INTEGER,
+    date_updated DATE,
+    FOREIGN KEY (species_id) REFERENCES PlantData(plant_id) ON DELETE SET NULL
+);
+
+-- Stores scheduled plant care tasks (watering, fertilizing, pruning, etc.)
+CREATE TABLE Schedule (
+    schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plant_id INTEGER NOT NULL,
+    task TEXT NOT NULL,
+    frequency TEXT CHECK (frequency IN ('daily', 'weekly', 'monthly', 'yearly')) NOT NULL,
+    FOREIGN KEY (plant_id) REFERENCES Plants(plant_id) ON DELETE CASCADE
+);
+
+-- Stores journal entries related to plant care and observations
+CREATE TABLE Journal (
+    entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plant_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+    content TEXT,
+    FOREIGN KEY (plant_id) REFERENCES Plants(plant_id) ON DELETE CASCADE
+);
+
+-- Tracks plant growth measurements over time
+CREATE TABLE Growth (
+    log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plant_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+    height FLOAT CHECK (height >= 0),
+    FOREIGN KEY (plant_id) REFERENCES Plants(plant_id) ON DELETE CASCADE
+);
+
+2. SQL Queries & Transactions
+a. SELECT Statement Joining Two Tables with WHERE Clause
+SELECT p.name, pd.species, pd.care_info
+FROM Plants p
+JOIN PlantData pd ON p.species_id = pd.plant_id
+WHERE pd.species = 'Aloe Vera';
+
+b. Transaction: UPDATE Statement (Updating Two Columns in Two Rows)
+BEGIN TRANSACTION;
+UPDATE Plants SET name = 'Ferny', date_updated = DATE('now') WHERE plant_id = 1;
+UPDATE Plants SET name = 'Cactus Jr.', date_updated = DATE('now') WHERE plant_id = 2;
+COMMIT;
+d. Transaction: DELETE Statement (Deleting a Row and Related Data)
+BEGIN TRANSACTION;
+DELETE FROM Plants WHERE plant_id = 1;
+COMMIT;
+
+3. Summary
+•	Normalized to 3rd Normal Form (3NF) by removing redundant data.
+•	Foreign Keys establish relationships between tables.
+•	SQL Queries demonstrate JOINs, WHERE conditions, and transactions for inserting, updating, and deleting data.
+
